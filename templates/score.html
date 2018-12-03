@@ -34,8 +34,52 @@
 
     <!-- Optional JavaScript -->
     <!-- jQuery first, then Popper.js, then Bootstrap JS -->
-    <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
+    <script src="https://code.jquery.com/jquery-3.3.1.min.js" integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8=" crossorigin="anonymous"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js" integrity="sha384-ZMP7rVo3mIykV+2+9J3UJ46jBk0WLaUAdn689aCwoqbBJiSnjAK/l8WvCWPIPm49" crossorigin="anonymous"></script>
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/js/bootstrap.min.js" integrity="sha384-ChfqqxuZUCnJSK3+MXmPNIyE6ZbWh2IMqE241rYiqJxyMiZ6OW/JmZQ5stwEULTy" crossorigin="anonymous"></script>
+    <script>
+      function getFormattedTime(seconds_number) {
+        var hours = Math.floor(seconds_number / 3600);
+        var minutes = Math.floor((seconds_number - (hours * 3600)) / 60);
+        var seconds = seconds_number - (hours * 3600) - (minutes * 60);
+
+        if (hours < 10) {
+          hours = "0" + hours;
+        }
+        if (minutes < 10) {
+          minutes = "0" + minutes;
+        }
+        if (seconds < 10) {
+          seconds = "0" + seconds;
+        }
+        return hours + ':' + minutes + ':' + seconds;
+      }
+
+      function getOrdersProcessingInfo() {
+        $.ajax({
+          url: "/orders-processing-info",
+          success: function (result) {
+            var ordersProcessingInfo = result.orders_processing_info;
+            var maxWaitTime = ordersProcessingInfo.max_wait_time;
+
+            if (maxWaitTime <= 7 * 60) {
+              $("#indicator").css({backgroundColor : "green", color: "white"});
+            } else if (maxWaitTime <= 30 * 60) {
+              $("#indicator").css({backgroundColor : "yellow", color: "black"});
+            } else {
+              $("#indicator").css({backgroundColor : "red", color: "white"});
+            }
+
+            $("#max-wait-time").html(getFormattedTime(maxWaitTime));
+            $("#unprocessed-orders-count").html(ordersProcessingInfo.unprocessed_orders_count);
+            $("#today-processed-orders-count").html(ordersProcessingInfo.today_processed_orders_count);
+          }
+        });
+      }
+      $(document).ready(function () {
+        getOrdersProcessingInfo();
+        setInterval('getOrdersProcessingInfo()', 10000);
+      });
+    </script>
   </body>
 </html>
