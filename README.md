@@ -15,6 +15,34 @@ In addition, there is a color display when displaying the maximum waiting time f
 
 Online version of service is deployed on Heroku and available [here](https://shop-score-info.herokuapp.com/).
 
+# Quickstart
+
+For service launch on localhost need to install Python 3.5 and then install all dependencies:
+
+```bash
+
+$ pip install -r requirements.txt
+
+```
+
+To access the online store database, you must specify its URI:
+
+```bash
+
+$ export DATABASE_URI='postgresql://username:password@database.host:port/database_name'
+
+```
+
+Usage:
+
+```bash
+
+$ python3 server.py
+
+```
+
+Then open page [localhost:5000](http://localhost:5000) in browser.
+
 # Project Goals
 
 The code is written for educational purposes. Training course for web-developers - [DEVMAN.org](https://devman.org)
