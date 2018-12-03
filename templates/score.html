@@ -16,8 +16,19 @@
   </head>
   <body>
 
-    <div class="container">
-      <h1>Here will be score</h1>
+    <div class="container-fluid h-100">
+      <div class="row text-center h-100" >
+        <div class="col my-auto">
+          <div class="m-2 p-2" id="indicator">
+            <h3>Максимальное время ожидания обработки заказа:</h3>
+            <h2 id="max-wait-time"></h2>
+          </div>
+          <div class="m-2">
+            <h4>Не обработано заказов: <span id="unprocessed-orders-count"></span></h4>
+            <h4>Сегодня обработано заказов: <span id="today-processed-orders-count"></span></h4>
+          </div>
+        </div>
+      </div>
     </div><!-- /.container -->
 
     <!-- Optional JavaScript -->
