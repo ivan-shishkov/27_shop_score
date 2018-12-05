@@ -30,20 +30,15 @@ def get_unprocessed_orders_info(shop_datetime_now):
     }
 
 
-def get_today_processed_orders_count(shop_datetime_now):
+def get_processed_orders_info(shop_datetime_now):
     shop_datetime_today_begin = datetime.combine(
         shop_datetime_now.date(),
         time.min,
     )
-    return db_session.query(Order).filter(
+    today_processed_orders_count = db_session.query(Order).filter(
         Order.confirmed >= shop_datetime_today_begin,
     ).count()
 
-
-def get_processed_orders_info(shop_datetime_now):
-    today_processed_orders_count = get_today_processed_orders_count(
-        shop_datetime_now,
-    )
     return {
         'today_processed_orders_count': today_processed_orders_count
     }
